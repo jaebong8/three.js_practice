@@ -3,7 +3,7 @@ import { WEBGL } from './webgl'
 
 if (WEBGL.isWebGLAvailable()) {
   const scene = new THREE.Scene()
-  // scene.background = new THREE.Color(0x004fff)/
+  scene.background = new THREE.Color(0xeeeeee)
   const camera = new THREE.PerspectiveCamera(
     75,
     window.innerWidth / window.innerHeight,
@@ -25,41 +25,70 @@ if (WEBGL.isWebGLAvailable()) {
   window.addEventListener('resize', onWindowResize)
   camera.position.z = 3
 
-  const geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5)
-  const material = new THREE.MeshStandardMaterial({
-    color: 0x999999,
+  const pointLight = new THREE.PointLight(0xffffff, 1)
+  pointLight.position.set(0, 2, 12)
+  scene.add(pointLight)
+
+  // 도형 추가
+  const geometry1 = new THREE.TorusGeometry(0.3, 0.15, 16, 40)
+  const material1 = new THREE.MeshBasicMaterial({
+    color: 0xff7f00,
   })
+  const obj1 = new THREE.Mesh(geometry1, material1)
 
-  const cube = new THREE.Mesh(geometry, material)
+  obj1.position.x = -2
 
-  const geometry2 = new THREE.IcosahedronGeometry(0.5, 1)
-  const material2 = new THREE.MeshStandardMaterial({
-    color: 0x999999,
+  const geometry2 = new THREE.TorusGeometry(0.3, 0.15, 16, 40)
+  const material2 = new THREE.MeshBasicMaterial({
+    color: 0xff7f00,
   })
+  const obj2 = new THREE.Mesh(geometry2, material2)
 
-  const cube2 = new THREE.Mesh(geometry2, material2)
-  cube2.position.x = -1
-  const geometry3 = new THREE.ConeGeometry(0.3, 0.5, 0.5)
-  const material3 = new THREE.MeshStandardMaterial({
-    color: 0x999999,
+  obj2.position.x = -1
+
+  const geometry3 = new THREE.TorusGeometry(0.3, 0.15, 16, 40)
+  const material3 = new THREE.MeshPhysicalMaterial({
+    color: 0xff7f00,
+    // roughness: 0.1,
+    // metalness: 0.5,
+    clearcoat: 1,
   })
+  const obj3 = new THREE.Mesh(geometry3, material3)
 
-  const cube3 = new THREE.Mesh(geometry3, material3)
-  cube3.position.x = 1
+  const geometry4 = new THREE.TorusGeometry(0.3, 0.15, 16, 40)
+  const material4 = new THREE.MeshLambertMaterial({
+    color: 0xff7f00,
+  })
+  const obj4 = new THREE.Mesh(geometry4, material4)
+
+  obj4.position.x = 1
+
+  const geometry5 = new THREE.TorusGeometry(0.3, 0.15, 16, 40)
+  const material5 = new THREE.MeshPhongMaterial({
+    color: 0xff7f00,
+    shininess: 90,
+    specular: 0x004fff,
+  })
+  const obj5 = new THREE.Mesh(geometry5, material5)
+
+  obj5.position.x = 2
+
   function render(time) {
-    time *= 0.0005
-    cube.rotation.x = time
-    cube.rotation.y = time
-    cube2.rotation.x = time
-    cube2.rotation.y = time
-    cube3.rotation.x = time
-    cube3.rotation.y = time
+    time *= 0.0009
+    obj1.rotation.y = time
+    obj2.rotation.y = time
+    obj3.rotation.y = time
+    obj4.rotation.y = time
+    obj5.rotation.y = time
     renderer.render(scene, camera)
     requestAnimationFrame(render)
   }
-  scene.add(cube)
-  scene.add(cube2)
-  scene.add(cube3)
+  scene.add(obj1)
+  scene.add(obj2)
+  scene.add(obj3)
+  scene.add(obj4)
+  scene.add(obj5)
+
   requestAnimationFrame(render)
   document.body.appendChild(renderer.domElement)
 } else {
