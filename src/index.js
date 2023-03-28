@@ -29,29 +29,44 @@ if (WEBGL.isWebGLAvailable()) {
   pointLight.position.set(0, 2, 12)
   scene.add(pointLight)
 
+  const textureLoader = new THREE.TextureLoader()
+  const textureBaseColor = textureLoader.load(
+    '../static/textures/basecolor.jpg'
+  )
+  const textureHeight = textureLoader.load('../static/textures/height.png')
+  const textureNormal = textureLoader.load('../static/textures/normal.jpg')
+  const textureRoughness = textureLoader.load(
+    '../static/textures/roughness.jpg'
+  )
+
   // 도형 추가
-  const geometry1 = new THREE.TorusGeometry(0.3, 0.15, 16, 40)
-  const material1 = new THREE.MeshBasicMaterial({
-    color: 0xff7f00,
+  const geometry1 = new THREE.SphereGeometry(0.4, 32, 16)
+  const material1 = new THREE.MeshStandardMaterial({
+    map: textureBaseColor,
   })
   const obj1 = new THREE.Mesh(geometry1, material1)
 
   obj1.position.x = -2
 
-  const geometry2 = new THREE.TorusGeometry(0.3, 0.15, 16, 40)
-  const material2 = new THREE.MeshBasicMaterial({
-    color: 0xff7f00,
+  const geometry2 = new THREE.SphereGeometry(0.4, 32, 16)
+  const material2 = new THREE.MeshStandardMaterial({
+    map: textureBaseColor,
+    normalMap: textureNormal,
+    displacementMap: textureHeight,
+    displacementScale: 0.08,
   })
   const obj2 = new THREE.Mesh(geometry2, material2)
 
   obj2.position.x = -1
 
-  const geometry3 = new THREE.TorusGeometry(0.3, 0.15, 16, 40)
-  const material3 = new THREE.MeshPhysicalMaterial({
-    color: 0xff7f00,
-    // roughness: 0.1,
-    // metalness: 0.5,
-    clearcoat: 1,
+  const geometry3 = new THREE.SphereGeometry(0.4, 32, 16)
+  const material3 = new THREE.MeshStandardMaterial({
+    map: textureBaseColor,
+    normalMap: textureNormal,
+    displacementMap: textureHeight,
+    displacementScale: 0.08,
+    roughnessMap: textureRoughness,
+    roughness: 0.5,
   })
   const obj3 = new THREE.Mesh(geometry3, material3)
 
