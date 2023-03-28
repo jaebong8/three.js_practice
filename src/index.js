@@ -118,13 +118,15 @@ if (WEBGL.isWebGLAvailable()) {
     antialias: true,
     alpha: true,
   })
+  document.body.appendChild(renderer.domElement)
+  renderer.shadowMap.enabled = true
   //camera
-  const fov = 80
+  const fov = 47
   const aspect = window.innerWidth / window.innerHeight
   const near = 0.1
   const far = 1000
   const camera = new THREE.PerspectiveCamera(fov, aspect, near, far)
-  camera.position.set(0, 1, 5)
+  camera.position.set(2, 1, 5)
   camera.lookAt(new THREE.Vector3(0, 0, 0))
 
   renderer.setSize(window.innerWidth, window.innerHeight)
@@ -140,7 +142,7 @@ if (WEBGL.isWebGLAvailable()) {
   const pointLight = new THREE.PointLight(0xffffff, 1)
   const pointLight2 = new THREE.PointLight(0xffffff, 1)
   const ambientLight = new THREE.AmbientLight(0xffffff, 1)
-  const directionalLight = new THREE.DirectionalLight(0xffffff)
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 1)
   const dlHelper = new THREE.DirectionalLightHelper(
     directionalLight,
     0.5,
@@ -149,20 +151,33 @@ if (WEBGL.isWebGLAvailable()) {
   const plHelper = new THREE.PointLightHelper(pointLight, 0.1)
   const plHelper2 = new THREE.PointLightHelper(pointLight2, 0.1)
   pointLight.position.set(1, 2, 0)
-  pointLight2.position.set(-1, 1, 1)
-  scene.add(pointLight)
+  pointLight2.position.set(1.5, 1.5, -1)
+  directionalLight.position.set(1, 1, -0.3)
+  // scene.add(directionalLight)
+  // scene.add(dlHelper)
   scene.add(pointLight2)
   scene.add(plHelper)
   scene.add(plHelper2)
+  pointLight2.castShadow = true
+  pointLight2.shadow.radius = 8
+  directionalLight.shadow.mapSize.width = 1024
+  directionalLight.shadow.mapSize.height = 1024
 
   //도형
-  const geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5)
+  const geometry2 = new THREE.BoxGeometry(0.5, 0.5, 0.5)
+  const geometry = new THREE.SphereGeometry(0.5, 32, 16)
   const material = new THREE.MeshStandardMaterial({
     color: 0xff7f00,
   })
   const obj = new THREE.Mesh(geometry, material)
-  obj.rotation.y = 0.5
+  const obj2 = new THREE.Mesh(geometry2, material)
+  obj2.position.set(0.9, 0.9, 0)
+  obj.position.set(0, 0.1, 0)
   scene.add(obj)
+  scene.add(obj2)
+  obj.castShadow = true
+  obj.receiveShadow = true
+  obj2.castShadow = true
 
   //바닥
   const planeGeometry = new THREE.PlaneGeometry(30, 30, 1, 1)
@@ -173,12 +188,12 @@ if (WEBGL.isWebGLAvailable()) {
   plane.rotation.x = -0.5 * Math.PI
   plane.position.y = -0.5
   scene.add(plane)
+  plane.receiveShadow = true
 
   function render(time) {
     renderer.render(scene, camera)
   }
   requestAnimationFrame(render)
-  document.body.appendChild(renderer.domElement)
 } else {
   var warning = WEBGL.getWebGLErrorMessage()
   document.body.appendChild(warning)
