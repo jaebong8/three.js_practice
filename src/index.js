@@ -119,12 +119,12 @@ if (WEBGL.isWebGLAvailable()) {
     alpha: true,
   })
   //camera
-  const fov = 47
+  const fov = 80
   const aspect = window.innerWidth / window.innerHeight
   const near = 0.1
   const far = 1000
   const camera = new THREE.PerspectiveCamera(fov, aspect, near, far)
-  camera.position.set(0, 5, 9)
+  camera.position.set(0, 1, 5)
   camera.lookAt(new THREE.Vector3(0, 0, 0))
 
   renderer.setSize(window.innerWidth, window.innerHeight)
@@ -138,8 +138,22 @@ if (WEBGL.isWebGLAvailable()) {
 
   //light
   const pointLight = new THREE.PointLight(0xffffff, 1)
-  pointLight.position.set(0, 2, 12)
+  const pointLight2 = new THREE.PointLight(0xffffff, 1)
+  const ambientLight = new THREE.AmbientLight(0xffffff, 1)
+  const directionalLight = new THREE.DirectionalLight(0xffffff)
+  const dlHelper = new THREE.DirectionalLightHelper(
+    directionalLight,
+    0.5,
+    0x0000ff
+  )
+  const plHelper = new THREE.PointLightHelper(pointLight, 0.1)
+  const plHelper2 = new THREE.PointLightHelper(pointLight2, 0.1)
+  pointLight.position.set(1, 2, 0)
+  pointLight2.position.set(-1, 1, 1)
   scene.add(pointLight)
+  scene.add(pointLight2)
+  scene.add(plHelper)
+  scene.add(plHelper2)
 
   //도형
   const geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5)
