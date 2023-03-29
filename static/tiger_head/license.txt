@@ -1,0 +1,11 @@
+Model Information:
+* title:	Tiger head
+* source:	https://sketchfab.com/3d-models/tiger-head-5b98e6b4e98e4a2bb27bed44887de723
+* author:	Pebegou (https://sketchfab.com/Pebegou)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Tiger head" (https://sketchfab.com/3d-models/tiger-head-5b98e6b4e98e4a2bb27bed44887de723) by Pebegou (https://sketchfab.com/Pebegou) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
