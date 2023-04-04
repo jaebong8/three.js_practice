@@ -15,3 +15,11 @@
 - TextureLoader , CubeTextureLoader, WebGLCubeRenderTarget 세 가지 방법을 통한 skyBox 구현
 
 ![skyBox_low](https://user-images.githubusercontent.com/80332764/228788338-dd3ccf71-9f27-4f1e-b8a3-3710b06f71ab.gif)
+
+- Picking & Particle 구현
+
+![particle](https://user-images.githubusercontent.com/80332764/229726247-fbac80f1-08fe-4f10-b1e9-bc8de8f71fbe.gif)
+
+- Ammo.js를 활용한 Domino 구현
+
+![domino](https://user-images.githubusercontent.com/80332764/229726520-4fa440fb-6577-4373-bec3-be8601ee80b7.gif)
