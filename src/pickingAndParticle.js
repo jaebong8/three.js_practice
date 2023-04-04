@@ -12,7 +12,6 @@ class Particle {
   }
 
   awake(time) {
-    console.log(this.awakenTime)
     if (!this.awakenTime) {
       this.awakenTime = time
     }
@@ -20,7 +19,7 @@ class Particle {
 
   update(time) {
     if (this.awakenTime) {
-      const period = 12.0
+      const period = 4.0
       const t = time - this.awakenTime
       if (t >= period) this.awakenTime = undefined
       this._mesh.rotation.x = THREE.MathUtils.lerp(
@@ -28,14 +27,28 @@ class Particle {
         Math.PI * 2 * period,
         t / period
       )
+      let h_s
+      let l
+      if (t < period / 2) {
+        h_s = THREE.MathUtils.lerp(0.0, 1.0, t / (period / 2))
+        l = THREE.MathUtils.lerp(0.1, 1.0, t / (period / 2))
+      } else {
+        h_s = THREE.MathUtils.lerp(1.0, 0.0, t / (period / 2) - 1)
+        l = THREE.MathUtils.lerp(1.0, 0.1, t / (period / 2) - 1)
+      }
+
+      this._mesh.material.color.setHSL(h_s, h_s, l)
+      this._mesh.position.z = h_s * 10
     }
   }
 }
 class App {
   constructor() {
+    const divContainer = document.querySelector('#webgl-container')
+    this._divContainer = divContainer
     const renderer = new THREE.WebGLRenderer({ antialias: true })
     renderer.setPixelRatio(window.devicePixelRatio)
-    document.body.appendChild(renderer.domElement)
+    divContainer.appendChild(renderer.domElement)
 
     this._renderer = renderer
 
@@ -61,18 +74,20 @@ class App {
   _setupPicking() {
     const raycaster = new THREE.Raycaster()
     raycaster.cursorNormalizedPosition = undefined
-    this._renderer.domElement.addEventListener(
+    this._divContainer.addEventListener(
       'mousemove',
       this._onMouseMove.bind(this)
     )
     this._raycaster = raycaster
   }
 
-  _onMouseMove(e) {
-    const width = this._renderer.domElement.clientWidth
-    const height = this._renderer.domElement.clientHeight
-    const x = (e.offsetX / width) * 2 - 1
-    const y = (e.offsetY / height) * 2 + 1
+  _onMouseMove(event) {
+    const width = this._divContainer.clientWidth
+    const height = this._divContainer.clientHeight
+
+    const x = (event.offsetX / width) * 2 - 1
+    const y = -(event.offsetY / height) * 2 + 1
+
     this._raycaster.cursorNormalizedPosition = { x, y }
   }
   _setupModel() {
@@ -111,17 +126,16 @@ class App {
 
   update(time) {
     time *= 0.001 // second unit
+
     if (this._raycaster && this._raycaster.cursorNormalizedPosition) {
       this._raycaster.setFromCamera(
         this._raycaster.cursorNormalizedPosition,
         this._camera
       )
       const targets = this._raycaster.intersectObjects(this._scene.children)
-      //   console.log(this._raycaster.intersectObjects(this._scene.children))
       if (targets.length > 0) {
         const mesh = targets[0].object
         const particle = mesh.wrapper
-
         particle.awake(time)
       }
     }
