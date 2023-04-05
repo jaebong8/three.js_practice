@@ -23,3 +23,9 @@
 - Ammo.js를 활용한 Domino 구현
 
 ![domino](https://user-images.githubusercontent.com/80332764/229726520-4fa440fb-6577-4373-bec3-be8601ee80b7.gif)
+
+- 더블 클릭 시 줌인/줌아웃 부드럽게 구현 ( feat.GSAP )
+
+![animationZoom-min](https://user-images.githubusercontent.com/80332764/230004947-49c53fb6-e329-4855-adc5-55783622bdbe.gif)
+
+
